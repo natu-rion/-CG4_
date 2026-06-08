@@ -17,6 +17,8 @@ public:
 	void Draw();
 	~GameScene();
 
+	void SpawnStarEffect();
+
 private:
 	// テクスチャーハンドル
 	uint32_t textureHandle_ = 0;
@@ -29,6 +31,7 @@ private:
 
 	KamataEngine::Model2* model2_ = nullptr;
 
-	// エフェクト
-	Effect* effect_ = nullptr;
+	// 複数のエフェクト
+	std::vector<Effect*> effects_;
+	const uint32_t kCount = 8;
 };
