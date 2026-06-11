@@ -1,11 +1,9 @@
 #pragma once
-#include "Effect.h"
 #include "KamataEngine.h"
-#include "Model2/Model2.h"
+#include "Particle.h"
 
 // ゲームシーン
 class GameScene {
-
 public:
 	// 初期化
 	void Initialize();
@@ -27,8 +25,8 @@ private:
 	// ワールドトランスフォーム
 	KamataEngine::WorldTransform worldTransform_;
 
-	KamataEngine::Model2* model2_ = nullptr;
+	KamataEngine::Model* modelParticle_ = nullptr;
 
-	// エフェクト
-	Effect* effect_ = nullptr;
+	// パーティクル
+	Particle* particel_ = nullptr;
 };

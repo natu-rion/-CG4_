@@ -8,57 +8,32 @@ void GameScene::Initialize() {
 	// テクスチャーインスタンスの作成
 	textureHandle_ = TextureManager::Load("uvChecker.png");
 
-	// モデルの初期化
-	Model2::StaticInitialize();
-
 	// カメラの初期化
 	camera_.Initialize();
+
+	modelParticle_->StaticInitialize();
+	modelParticle_ = Model::CreateSphere(4, 4);
 
 	//
 	worldTransform_.Initialize();
 
-	// モデルの生成
-	model2_ = Model2::CreateRing(8, 5.0f, 10.0f);
-
-	// エフェクトの初期化
-	effect_ = new Effect();
-	effect_->Initialize(&camera_);
+	// パーティクルの初期化
+	particel_ = new Particle();
+	particel_->Initialize(modelParticle_);
 }
 
-void GameScene::Update() {
-
-	effect_->Update();
-
-	// ワールドトランスフォームの更新
-	// WorldTransformUpdate(worldTransform_);
-
-	// Imguiの表示
-#ifdef _DEBUG
-	/*ImGui::Begin("model");
-	ImGui::DragFloat3("translation", &worldTransform_.translation_.x, 0.01f);
-	ImGui::DragFloat3("rotation", &worldTransform_.rotation_.x, 0.01f);
-	ImGui::DragFloat3("scale", &worldTransform_.scale_.x, 0.01f);
-	ImGui::End();*/
-#endif
-}
+void GameScene::Update() { particel_->Update(); }
 
 void GameScene::Draw() {
-	// DirectXCommonインスタンスの取得
-	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
 	// 3Dオブジェクト描画前処理
-	Model2::PreDraw(dxCommon->GetCommandList());
+	Model::PreDraw();
 
-	// モデルの描画
-	//	model2_->Draw(worldTransform_, camera_, textureHandle_);
-	effect_->Draw();
+	// パーティクルの描画
+	particel_->Draw(camera_);
 
 	// 3Dオブジェクト後処理
-	Model2::PostDraw();
+	Model::PostDraw();
 }
 
-GameScene::~GameScene() {
-	delete model2_;
-	Model2::StaticFinalize();
-	delete effect_;
-}
+GameScene::~GameScene() { delete modelParticle_; }
